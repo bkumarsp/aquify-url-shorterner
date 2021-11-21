@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="Header">
+        <h2>Welcome,
+            <%= aquaUser.name %>!
+        </h2>
+        <div>
+            <a href="/logout">Logout</a>
+        </div>
+
+    </div>
+    <div class="main_container">
+        <h1 style="align-self: center; margin-left: 35%;">Aquify Your URL</h1>
+
+        <div>
+            <form action="/shorterUrls/<%= aquaUser.email%>" method="post" class="my-4 form-inline">
+                <label for="fullUrlString" class="sr-only">Url</label>
+                <input type="url" name="fullUrlString" id="fullUrlString" placeholder="URL" required class="form-control col mr-2 ml-2">
+                <button class="btn btn-success" type="submit">Aquify</button>
+            </form>
+        </div>
+        <div>
+            <h4>Short Url Generated:</h4>
+
+        </div>
+
+        <table class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Full URL</th>
+                    <th>Short URL</th>
+                    <th>Clicks</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                <div>
+                    <% for(let i=0; i<shortUrls.length; i+=1) { %>
+                        <tr>
+                            <td>
+                                <a href="<%= shortUrls[i].fullUrl %>">
+                                    <%= shortUrls[i].fullUrl %>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="http://localhost:5555/<%= shortUrls[i].shortUrl %>" target="_blank">
+                                http://aquify/<%= shortUrls[i].shortUrl %>
+                            </a>
+                            </td>
+                            <td>
+                                <%= shortUrls[i].clicks %>
+                            </td>
+
+                            <td>
+                                <a href="/delete/<%= shortUrls[i].id %>" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        <% } %>
+                </div>
+
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>
