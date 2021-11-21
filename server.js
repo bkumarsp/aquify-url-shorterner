@@ -9,7 +9,7 @@ const session = require('express-session')
 var sessionStore = new session.MemoryStore;
 
 const shortURL = require("./models/shortUrl")
-const aquaUsers = require("./models/user") 
+const User = require("./models/user") 
 
 const config = require('./config/default.json'); 
 const users = require('./routes/api/users')
@@ -86,9 +86,15 @@ app.get('/aquaurl/:user', async(req, res) => {
     console.log("Server.js, ", currentUser)
 
     const short_urls = await shortURL.find({userMail: currentUser})
-    const USER = await aquaUsers.findOne({userMail: currentUser})
+    var USER = null
+    const userData = await User.findOne({email: currentUser})
+    console.log('user await', userData)
+    if(userData)
+        USER = {name: userData.name, email: userData.email}
+    else
+        console.log('No data found')
     
-    if(!USER)   USER = {name: 'Guest'}
+    if(USER === null)   USER = {name: 'Guest', email:'guest@unkown.in'}
     res.render('index', { shortUrls: short_urls, aquaUser: USER })
 })
 

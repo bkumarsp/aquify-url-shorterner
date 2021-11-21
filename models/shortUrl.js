@@ -1,7 +1,14 @@
 const mongoose = require('mongoose')
 const shortid = require('shortid'); // library to generate a unique id for url
-const { default: isEmail } = require('validator/lib/isemail');
 
+
+//Utility method to create random url string
+/** 
+function newShortUrl(){
+    var s_url = Math.random().toString(36).slice(2)
+    return s_url
+}
+*/
 
 //Schema of our database
 const shortUrlSchema = new mongoose.Schema({
