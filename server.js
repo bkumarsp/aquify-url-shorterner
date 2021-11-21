@@ -18,18 +18,6 @@ const users = require('./routes/api/users')
 const db = config.mongouri // Fetching MongoDB URL from config.json
 const app = express()
 
-//utitlity methods
-const getDomain = (url) => {
-    var result
-    var match
-    if (match = url.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n\?\=]+)/im)) {
-        result = match[1]
-        if (match = result.match(/^[^\.]+\.(.+\..+)$/)) {
-            result = match[1]
-        }
-    }
-    return result + '/' + shortid.generate()
-}
 
 
 app.set('view engine', 'ejs')
@@ -92,9 +80,7 @@ app.get('/aquaurl/:user', async(req, res) => {
     if(userData)
         USER = {name: userData.name, email: userData.email}
     else
-        console.log('No data found')
-    
-    if(USER === null)   USER = {name: 'Guest', email:'guest@unkown.in'}
+        USER = {name: 'Guest', email:'guest@unkown.in'}
     res.render('index', { shortUrls: short_urls, aquaUser: USER })
 })
 
@@ -124,18 +110,8 @@ app.get("/delete/:id", async(req, res)=>{
 app.post('/shorterUrls/:email', async(req, res) => {
     const url = req.body.fullUrlString
 
-    // let urlExist = shortURL.findOne({fullUrl: url})
-    // let urlShort = null
-    // if(urlExist){
-    //     urlShort = url.shortUrl
-    //     console.log(urlShort)
-    // }else{  
-
-    //     await shortURL.create({ fullUrl: url, userMail: currentUser })
-    //     urlShort = shortURL.findOne({fullUrl:url})
-    // }
     await shortURL.create({ fullUrl: url, userMail: currentUser })
-    // req.flash('short_url', urlShort)
+    
     res.redirect(`/aquaurl/${req.params.email}`)
 })
 

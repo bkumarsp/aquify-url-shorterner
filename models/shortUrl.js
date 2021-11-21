@@ -32,7 +32,7 @@ const shortUrlSchema = new mongoose.Schema({
     },
     userMail:{
         type: String,
-        default: "example@ex.com"
+        default: "example@unkown.com"
     }
 
 })
